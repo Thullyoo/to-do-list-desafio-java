@@ -7,6 +7,9 @@ import br.thullyo.todolist.repository.ToolRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ToolService {
 
@@ -24,6 +27,13 @@ public class ToolService {
 
 
         return new ToolResponse(tool.getTitle(),tool.getLink(),tool.getDescription(),tool.getTags(),tool.getId());
+    }
+
+    public List<ToolResponse> getAllTools(){
+        List<ToolResponse> tools = toolRepository.findAll().stream().map(tool -> {
+            return new ToolResponse(tool.getTitle(), tool.getLink(), tool.getDescription(), tool.getTags(), tool.getId());
+        }).toList();
+        return tools;
     }
 
 }
