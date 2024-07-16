@@ -8,7 +8,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ToolService {
@@ -31,6 +30,13 @@ public class ToolService {
 
     public List<ToolResponse> getAllTools(){
         List<ToolResponse> tools = toolRepository.findAll().stream().map(tool -> {
+            return new ToolResponse(tool.getTitle(), tool.getLink(), tool.getDescription(), tool.getTags(), tool.getId());
+        }).toList();
+        return tools;
+    }
+
+    public List<ToolResponse> getAllByTag(String tag){
+        List<ToolResponse> tools = toolRepository.findAllByTag(tag).stream().map(tool -> {
             return new ToolResponse(tool.getTitle(), tool.getLink(), tool.getDescription(), tool.getTags(), tool.getId());
         }).toList();
         return tools;
